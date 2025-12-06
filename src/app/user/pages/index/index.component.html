@@ -1,0 +1,78 @@
+<div class="row justify-content-between">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+        <form [formGroup]="formUser" (ngSubmit)="search()" novalidate="">
+            <div class="input-group mb-3">
+                <input type="text" formControlName="fieldSearch" class="form-control" placeholder="Buscar ..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 text-end">
+        <app-create (change)="search()"></app-create>
+        <!-- <button class="btn btn-success">
+            <i class="bi bi-plus"></i> 
+            Nuevo usuario
+        </button> -->
+    </div>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Foto</th>
+                <th scope="col">Nombre completo</th>
+                <th scope="col">Email</th>
+                <th scope="col">Turno</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of users">
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.foto}}</td>
+                <td>{{item.nombre_completo}}</td>
+                <td>{{item.email}}</td>
+                <td>{{item.turno}}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <button class="dropdown-item" type="button">
+                                <i class="bi bi-eye"></i> Ver
+                            </button>
+                            <li>
+                                <button type="button" class="dropdown-item" (click)="edit(item.id!)">
+                                    <i class="bi bi-pencil"></i> Editar
+                                </button>
+                            </li>
+                            <li>
+                                <button type="button" class="dropdown-item" (click)="delete(item.id!)">
+                                    <i class="bi bi-trash"></i> Eliminar
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="users.length == 0">
+                <td colspan="6" class="text-center">
+                    No hay registros
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-between p-2">
+        <select class="form-select" style="width: auto" [(ngModel)]="pagination.pageSize" (ngModelChange)="search()">
+            <option *ngFor="let item of pagination.sizeOptions" [ngValue]="item">{{item}} por pagina</option>
+        </select>
+        <span>{{pagination.totalCount}} registros</span>
+        <!-- <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.page" [pageSize]="pagination.pageSize"
+            (pageChange)="search()">
+        </ngb-pagination> -->
+    </div>
+</div>

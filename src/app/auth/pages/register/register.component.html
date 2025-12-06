@@ -1,0 +1,58 @@
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3 mt-3 text-center">
+                        Registrar usuario
+                    </div>
+                    <form [formGroup]="formUser" (ngSubmit)="onSubmit()" novalidate="">
+                        <div class="form-floating mb-3">
+                            <select class="form-control" name="punto_venta_id" id="punto_venta_id" formControlName="punto_venta_id">
+                                <option *ngFor="let item of puntosVenta" value="{{item.id}}">{{item.nombre}} - {{item.sucursal}}</option>
+                            </select>
+                            <label for="nombre_completo">Puntos de venta</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="nombre_completo" class="form-control" id="nombre_completo" formControlName="nombre_completo" required
+                                autocomplete="nombre_completo" autofocus placeholder="name@example.com">
+                            <label for="nombre_completo">Nombre completo</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email" formControlName="email" required
+                                autocomplete="email" autofocus placeholder="name@example.com">
+                            <label for="email">Email</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" formControlName="password"
+                                placeholder="Password" required>
+                            <label for="floatingPassword">Password</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="turno" class="form-control" id="turno" formControlName="turno"
+                                placeholder="turno" required>
+                            <label for="floatingturno">Turno</label>
+                        </div>
+
+                        <div class="row mb-0">
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                    Registrar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="row mb-0">
+                            <div class="col-md-12 text-center">
+                                <a class="btn btn-link" href="#">
+                                    Olvidaste tu contraseña
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

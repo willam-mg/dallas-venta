@@ -1,0 +1,145 @@
+<!-- <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Seleccionar cliente</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="estudiantes-tab" data-bs-toggle="tab" data-bs-target="#estudiantes-tab-pane"
+                type="button" role="tab" aria-controls="estudiantes-tab-pane" aria-selected="true">Estudiantes</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="clientes-tab" data-bs-toggle="tab" data-bs-target="#clientes-tab-pane"
+                type="button" role="tab" aria-controls="clientes-tab-pane" aria-selected="false">Clientes</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade pt-3 show active" id="estudiantes-tab-pane" role="tabpanel" aria-labelledby="estudiantes-tab" tabindex="0">
+            <div class="row justify-content-between">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                    <form [formGroup]="formSearchEstudiante" (ngSubmit)="paginationEstudiante.page = 1; searchEstudiante()">
+                        <div class="input-group mb-3">
+                            <input type="text" formControlName="fieldSearch" class="form-control"
+                                placeholder="Nombre, apellido, ci y celular" aria-label="Recipient's username"
+                                aria-describedby="button-addon-estudiante">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon-estudiante" [disabled]="submitted">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Ci</th>
+                            <th scope="col">Celular</th>
+                            <th scope="col">Es cliente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of estudiantes" [class]="item.isClient?'table-success':''" (click)="selectEstudiante(item)" style="cursor:pointer">
+                            <th scope="row">{{item.id}}</th>
+                            <td>{{item.nombre}}</td>
+                            <td>{{item.apellido}}</td>
+                            <td>
+                                {{item.ci}}
+                                {{item.expedido}}
+                            </td>
+                            <td>{{item.celular}}</td>
+                            <td>
+                                {{item.isClient? 'Si': 'No'}}
+                            </td>
+                            <td>
+                                {{item.puntos}}
+                            </td>
+                        </tr>
+                        <tr *ngIf="estudiantes.length == 0">
+                            <td colspan="6" class="text-center">
+                                No hay registros
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                    <select class="form-select" style="width: auto" [(ngModel)]="paginationEstudiante.pageSize" (ngModelChange)="searchEstudiante()">
+                        <option *ngFor="let item of paginationEstudiante.sizeOptions" [ngValue]="item">{{item}} por pagina</option>
+                    </select>
+                    <small class="p-3">{{paginationEstudiante.totalCount}} resultados</small>
+                    <div class="table-responsive">
+                        <ngb-pagination [collectionSize]="paginationEstudiante.totalCount" [(page)]="paginationEstudiante.page"
+                            [pageSize]="paginationEstudiante.pageSize" (pageChange)="searchEstudiante()">
+                        </ngb-pagination>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade pt-3" id="clientes-tab-pane" role="tabpanel" aria-labelledby="clientes-tab" tabindex="0">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <form [formGroup]="formSearch" (ngSubmit)="search()">
+                        <div class="input-group mb-3">
+                            <input type="text" formControlName="fieldSearch" class="form-control" placeholder="Buscar ..."
+                                aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn btn-outline-secondary"  [disabled]="submitted"  type="submit" id="button-addon2">
+                                <i class="bi bi-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Nombre completo</th>
+                            <th scope="col">Ci</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of clientes" (click)="select(item)">
+                            <th scope="row">{{item.id}}</th>
+                            <td>
+                                {{item.tipo == 2? 'Estudiante' : 'Externo' }}
+                            </td>
+                            <td>{{item.nombre_completo}}</td>
+                            <td>{{item.ci}}</td>
+                        </tr>
+                        <tr *ngIf="clientes.length == 0">
+                            <td colspan="6" class="text-center">
+                                No hay registros
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="d-flex justify-content-between p-2">
+                    <select class="form-select" style="width: auto" [(ngModel)]="pagination.pageSize"
+                        (ngModelChange)="search()">
+                        <option *ngFor="let item of pagination.sizeOptions" [ngValue]="item">{{item}} por pagina</option>
+                    </select>
+                    <span>{{pagination.totalCount}} registros</span>
+                    <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.page"
+                        [pageSize]="pagination.pageSize" (pageChange)="search()">
+                    </ngb-pagination>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">
+        <i class="bi bi-x"></i>
+        Cerrar
+    </button>
+</div> -->

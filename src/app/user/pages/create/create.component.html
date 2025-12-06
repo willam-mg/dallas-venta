@@ -1,0 +1,55 @@
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Nuevo usuario</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form [formGroup]="formUser" (ngSubmit)="onSubmit()" novalidate="">
+        <div class="modal-body">
+            <div class="form-floating mb-3">
+                <input type="nombre_completo" class="form-control" id="nombre_completo" formControlName="nombre_completo"
+                    required autocomplete="nombre_completo" autofocus placeholder="name@example.com">
+                <label for="nombre_completo">Nombre completo</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="email" formControlName="email" required autocomplete="email"
+                    autofocus placeholder="name@example.com">
+                <label for="email">Email</label>
+            </div>
+        
+            <div class="form-floating mb-3">
+                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Password"
+                    required>
+                <label for="floatingPassword">Password</label>
+            </div>
+            <div class="form-floating mb-3">
+                <select class="form-control" name="turno" id="turno"  formControlName="turno" >
+                    <option value="mañana" selected>Mañana</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noche">Noche</option>
+                </select>
+                <label for="floatingturno">Turno</label>
+            </div>
+        
+            <div class="row mb-0">
+                <div class="col-md-12 text-end">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">
+                <i class="bi bi-x"></i>
+                Cerrar
+            </button>
+            <button type="submit" [disabled]="submitted" class="btn btn-success">
+                <i class="bi bi-plus"></i>
+                Registrar
+            </button>
+        </div>
+    </form>
+</ng-template>
+
+<button class="btn btn-outline-success" (click)="open(content)">
+    <i class="bi bi-plus"></i>
+    Nuevo usuario
+</button>

@@ -1,0 +1,132 @@
+<!-- clinte externo -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Cliente externo</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <form [formGroup]="formCliente" (ngSubmit)="createExterno()" novalidate="">
+        <div class="modal-body">
+            <div class="form-floating mb-3">
+                <input type="nombre_completo" class="form-control" id="nombre_completo"
+                    formControlName="nombre_completo" required autocomplete="nombre_completo" autofocus
+                    placeholder="name@example.com">
+                <label for="nombre_completo">Nombre completo</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="ci" formControlName="ci"
+                    placeholder="Password" required>
+                <label for="floatingPassword">C.I.</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">
+                <i class="bi bi-x"></i>
+                Cerrar
+            </button>
+            <button type="submit" [disabled]="submitted" class="btn btn-success">
+                <i class="bi bi-plus"></i>
+                Registrar
+            </button>
+        </div>
+    </form>
+</ng-template>
+
+<!-- Cliente estudiante -->
+<ng-template #contentEstudiante let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Cliente estudiante</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <div class="row justify-content-between">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                <form  [formGroup]="formSearch"  (ngSubmit)="pagination.page = 1; search()">
+                    <div class="input-group mb-3">
+                        <input type="text" formControlName="fieldSearch" class="form-control" placeholder="Nombre, apellido, ci y celular"
+                            aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2" [disabled]="submitted">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Apellido</th>
+                        <th scope="col">Ci</th>
+                        <th scope="col">Celular</th>
+                        <th scope="col">Es cliente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr [class]="item.isClient?'table-success':''" *ngFor="let item of estudiantes" (click)="createEstudiante(item.id!)">
+                        <th scope="row">{{item.id}}</th>
+                        <!-- <td>
+                            <img src="https://admin.academiamodernadallas.com/uploads/estudiantes/{{item.foto}}" alt="" width="100">
+                        </td> -->
+                        <td>{{item.nombre}}</td>
+                        <td>{{item.apellido}}</td>
+                        <td>
+                            {{item.ci}}
+                            {{item.expedido}}
+                        </td>
+                        <td>{{item.celular}}</td>
+                        <td>
+                            {{item.isClient? 'Si': 'No'}}
+                        </td>
+                    </tr>
+                    <tr *ngIf="estudiantes.length == 0">
+                        <td colspan="6" class="text-center">
+                            No hay registros
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between p-2">
+                <select class="form-select" style="width: auto" [(ngModel)]="pagination.pageSize" (ngModelChange)="search()">
+                    <option *ngFor="let item of pagination.sizeOptions" [ngValue]="item">{{item}} por pagina</option>
+                </select>
+                <small class="p-3">{{pagination.totalCount}} resultados</small>
+                <div class="table-responsive">
+                    <!-- <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.page"
+                        [pageSize]="pagination.pageSize" (pageChange)="search()">
+                    </ngb-pagination> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">
+            <i class="bi bi-x"></i>
+            Cerrar
+        </button>
+    </div>
+</ng-template>
+
+<div class="btn-group">
+    <button class="btn btn-outline-success dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-plus"></i>
+        Nuevo cliente
+    </button>
+    <ul class="dropdown-menu">
+        <li>
+            <button type="button" class="dropdown-item" (click)="open(contentEstudiante, 'lg')">
+                <i class="bi bi-person"></i>
+                Estudiante
+            </button>
+        </li>
+        <li>
+            <button type="button" class="dropdown-item" (click)="open(content)">
+                <i class="bi bi-people"></i>
+                Externo
+            </button>
+        </li>
+    </ul>
+</div>
