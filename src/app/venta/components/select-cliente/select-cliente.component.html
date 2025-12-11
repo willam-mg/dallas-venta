@@ -1,6 +1,6 @@
-<!-- <div class="modal-header">
+<div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Seleccionar cliente</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.hide()"></button>
 </div>
 <div class="modal-body">
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -72,9 +72,19 @@
                     </select>
                     <small class="p-3">{{paginationEstudiante.totalCount}} resultados</small>
                     <div class="table-responsive">
-                        <ngb-pagination [collectionSize]="paginationEstudiante.totalCount" [(page)]="paginationEstudiante.page"
+                        <!-- <ngb-pagination [collectionSize]="paginationEstudiante.totalCount" [(page)]="paginationEstudiante.page"
                             [pageSize]="paginationEstudiante.pageSize" (pageChange)="searchEstudiante()">
-                        </ngb-pagination>
+                        </ngb-pagination> -->
+
+                        <pagination
+                            [totalItems]="paginationEstudiante!.totalCount"
+                            [(ngModel)]="paginationEstudiante.page"
+                            [itemsPerPage]="paginationEstudiante.pageSize"
+                            [maxSize]="3"         
+                            [boundaryLinks]="false"  
+                            [rotate]="true"         
+                            (pageChanged)="pageChanged($event)">
+                        </pagination>
                     </div>
                 </div>
             </div>
@@ -126,9 +136,15 @@
                         <option *ngFor="let item of pagination.sizeOptions" [ngValue]="item">{{item}} por pagina</option>
                     </select>
                     <span>{{pagination.totalCount}} registros</span>
-                    <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.page"
-                        [pageSize]="pagination.pageSize" (pageChange)="search()">
-                    </ngb-pagination>
+                    <pagination
+                        [totalItems]="pagination!.totalCount"
+                        [(ngModel)]="pagination.page"
+                        [itemsPerPage]="pagination.pageSize"
+                        [maxSize]="3"         
+                        [boundaryLinks]="false"  
+                        [rotate]="true"         
+                        (pageChanged)="pageChanged($event)">
+                    </pagination>
                 </div>
             </div>
         </div>
@@ -138,8 +154,8 @@
 
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.hide()">
         <i class="bi bi-x"></i>
         Cerrar
     </button>
-</div> -->
+</div>

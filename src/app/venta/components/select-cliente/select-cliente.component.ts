@@ -16,6 +16,7 @@ import { ResponseData } from '../../../shared/models/response-data';
 import { Cliente } from '../../../models/cliente';
 import { Estudiante } from '../../../models/estudiante';
 import { Pagination } from '../../../shared/models/pagination';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-select-cliente',
@@ -39,8 +40,8 @@ export class SelectClienteComponent implements OnInit {
   isSelected: EventEmitter<Cliente> = new EventEmitter<Cliente>();
 
   constructor(
-    private httpServiceCliente: HttpServiceCliente) {
-    // public modal: NgbActiveModal) {
+    private httpServiceCliente: HttpServiceCliente,
+    public modal: BsModalRef) {
     this.model = new User();
     this.submitted = false;
     this.clientes = [];
@@ -61,6 +62,11 @@ export class SelectClienteComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  pageChanged(event: any) {
+    this.pagination.page = event.page;
+    this.search();
   }
 
   search() {
