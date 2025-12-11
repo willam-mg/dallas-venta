@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../../http.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { User } from '../../../models/user';
@@ -20,6 +20,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Venta } from '../../../models/venta';
 import { Router } from '@angular/router';
 import moment from 'moment';
+import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
+
 @Component({
   selector: 'app-create',
   templateUrl: './create.component.html',
@@ -45,13 +47,15 @@ export class CreateComponent implements OnInit {
   inputHora: string;
   @ViewChild(SelectClienteComponent) selectClienteComponent: any;
   @ViewChild(SelectProductoComponent) selectProductoComponent: any;
+  modalRefProducto!: BsModalRef;
 
   constructor(
     private title: Title,
     private router: Router,
     // private modalCliente: NgbModal,
-    // private modalProducto: NgbModal,
+    private modalProducto: BsModalService,
     private httpService: HttpService,
+    private cd: ChangeDetectorRef,
     private productoHttpService:ProductoHttpService) {
     this.title.setTitle('Nueva venta');
     this.responseData = new ResponseData();
@@ -90,12 +94,21 @@ export class CreateComponent implements OnInit {
     // });
   }
   searchProducto() {
-    // const modalRefProducto = this.modalProducto.open(SelectProductoComponent, { size: 'lg' });
-    // modalRefProducto.componentInstance.setCantidad(this.inputCantidad);
-    // modalRefProducto.componentInstance.isSelected.subscribe((data: Almacen) => {
-    //   this.almacen = data;
-    //   this.addDetalleVenta(this.almacen);
-    // });
+    const initialState: ModalOptions = {
+      class: 'modal-lg',
+      initialState: {
+        cantidad: this.inputCantidad
+      }
+    };
+    this.modalRefProducto = this.modalProducto.show(SelectProductoComponent, initialState);
+    
+    this.modalRefProducto.content.isSelected.subscribe((data: Almacen) => {
+      this.almacen = data;
+      this.addDetalleVenta(data);
+
+      this.modalRefProducto.hide(); // Cerrar modal
+      this.cd.detectChanges();
+    });
   }
   
   searchByCodeBar() {

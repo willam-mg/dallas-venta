@@ -17,8 +17,7 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(
     public auth: AuthService,
     private router: Router,
-    private loadingService: LoadingService) {
-  }
+    private loadingService: LoadingService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.auth.isAuthenticated()) {

@@ -18,7 +18,7 @@ export const environment = {
       Accept: 'application/json',
       'Cache-Control': 'no-cache',
     },
-    path: 'http://localhost:8001/api'
+    path: 'http://impoter.local:8080/api'
   }
 };
 

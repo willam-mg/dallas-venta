@@ -1,73 +1,82 @@
-<!-- <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Seleccionar producto</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+<!-- select-producto.component.html -->
+
+<div class="modal-header">
+  <h4 class="modal-title">Seleccionar producto</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.hide()"></button>
 </div>
+
 <div class="modal-body">
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
-            <form [formGroup]="formSearch" (ngSubmit)="search()">
-                <div class="input-group mb-3">
-                    <input type="text" formControlName="fieldCodigo" class="form-control w-25" placeholder="Codigo" aria-label="Buscar"
-                        aria-describedby="button-addon2">
-                    <input type="text" formControlName="fieldNombre" class="form-control w-50" placeholder="Buscar ..." aria-label="Buscar"
-                        aria-describedby="button-addon2">
-                    <button class="btn btn-outline-secondary" [disabled]="submitted" type="submit" id="button-addon2">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Codigo</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Marca</th>
-                    <th scope="col">Area</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Detalle</th>
-                    <th scope="col">Stock</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr [class]="item.producto?.deleted_at ? 'table-danger': ''" *ngFor="let item of almacenes" (click)="select(item)" style="cursor: pointer;">
-                    <th scope="row">{{item.id}}</th>
-                    <th scope="row">{{item.producto?.id}}</th>
-                    <td>{{item.producto?.nombre}}</td>
-                    <td>{{item.producto?.marca}}</td>
-                    <td>{{item.producto?.area}}</td>
-                    <td>{{item.producto?.precio}}</td>
-                    <td>{{item.producto?.detalle}}</td>
-                    <td>{{item.cantidad}}</td>
-                </tr>
-                <tr *ngIf="almacenes.length == 0">
-                    <td colspan="8" class="text-center">
-                        No hay registros
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-between p-2">
-            <select class="form-select" style="width: auto" [(ngModel)]="pagination.pageSize" (ngModelChange)="search()">
-                <option *ngFor="let item of pagination.sizeOptions" [ngValue]="item">{{item}} por pagina</option>
-            </select>
-            <small class="p-3">{{pagination.totalCount}} resultados</small>
-            <div class="table-responsive">
-                <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.page"
-                    [pageSize]="pagination.pageSize" (pageChange)="search()">
-                </ngb-pagination>
-            </div>
-        </div>
+  <!-- Formulario de búsqueda -->
+  <form [formGroup]="formSearch" (ngSubmit)="search()">
+    <div class="input-group mb-3">
+      <input type="text" formControlName="fieldCodigo" class="form-control w-25" placeholder="Codigo">
+      <input type="text" formControlName="fieldNombre" class="form-control w-50" placeholder="Buscar ...">
+      <button class="btn btn-outline-secondary" [disabled]="submitted" type="submit">
+        <i class="bi bi-search"></i>
+      </button>
     </div>
+  </form>
+
+  <!-- Tabla de productos -->
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Codigo</th>
+          <th>Nombre</th>
+          <th>Marca</th>
+          <th>Area</th>
+          <th>Precio</th>
+          <th>Detalle</th>
+          <th>Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of almacenes"
+            [class.table-danger]="item.producto?.deleted_at"
+            (click)="select(item)"
+            style="cursor: pointer;">
+          <td>{{item.id}}</td>
+          <td>{{item.producto?.id}}</td>
+          <td>{{item.producto?.nombre}}</td>
+          <td>{{item.producto?.marca}}</td>
+          <td>{{item.producto?.area}}</td>
+          <td>{{item.producto?.precio}}</td>
+          <td>{{item.producto?.detalle}}</td>
+          <td>{{item.cantidad}}</td>
+        </tr>
+        <tr *ngIf="almacenes.length == 0">
+          <td colspan="8" class="text-center">No hay registros</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center p-2">
+    <select class="form-select" style="width: auto" [(ngModel)]="pagination.pageSize" (ngModelChange)="search()">
+      <option *ngFor="let size of pagination.sizeOptions" [ngValue]="size">{{size}} por pagina</option>
+    </select>
+
+    <small class="p-3">{{pagination.totalCount}} resultados</small>
+
+    <pagination
+      [totalItems]="pagination!.totalCount"
+      [(ngModel)]="pagination.page"
+      [itemsPerPage]="pagination.pageSize"
+      [maxSize]="3"         
+      [boundaryLinks]="false"  
+      [rotate]="true"         
+      (pageChanged)="pageChanged($event)">
+    </pagination>
+  </div>
 
 </div>
+
 <div class="modal-footer">
-    <button type="button" class="btn btn-outline-secondary" (click)="modal.close('Save click')">
-        <i class="bi bi-x"></i>
-        Cerrar
-    </button>
-</div> -->
+  <button type="button" class="btn btn-outline-secondary" (click)="modalRef.hide()">
+    <i class="bi bi-x"></i> Cerrar
+  </button>
+</div>

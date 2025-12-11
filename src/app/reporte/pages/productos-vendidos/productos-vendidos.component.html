@@ -60,12 +60,12 @@
         </thead>
         <tbody>
             <ng-container *ngFor="let item of detalleVentas; let i = index">
-                <tr [class]="item.almacen?.producto?.deleted_at? 'table-danger': ''">
+                <tr [class]="item.almacen!.producto!.deleted_at? 'table-danger': ''">
                     <th>{{i+1}}</th>
                     <th scope="row">{{item.venta_id}}</th>
-                    <th>{{item.almacen.producto?.id}}</th>
-                    <td>{{item.almacen?.producto?.nombre}}</td>
-                    <td>{{item.almacen?.producto?.marca}}</td>
+                    <th>{{item.almacen.producto!.id}}</th>
+                    <td>{{item.almacen!.producto!.nombre}}</td>
+                    <td>{{item.almacen!.producto!.marca}}</td>
                     <td>{{item.precio}}</td>
                     <td>{{item.cantidad}}</td>
                     <td>

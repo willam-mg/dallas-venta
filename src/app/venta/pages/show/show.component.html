@@ -73,10 +73,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr [class]="item.almacen?.producto?.deleted_at? 'table-danger': ''" *ngFor="let item of venta.detalleVenta">
-                            <th scope="row">{{item.almacen.producto?.id}}</th>
-                            <td>{{item.almacen?.producto?.nombre}}</td>
-                            <td>{{item.almacen?.producto?.marca}}</td>
+                        <tr [class]="item.almacen!.producto!.deleted_at? 'table-danger': ''" *ngFor="let item of venta.detalleVenta">
+                            <th scope="row">{{item.almacen.producto!.id}}</th>
+                            <td>{{item.almacen!.producto!.nombre}}</td>
+                            <td>{{item.almacen!.producto!.marca}}</td>
                             <td>{{item.precio}}</td>
                             <td>{{item.cantidad}}</td>
                             <td>

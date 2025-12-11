@@ -21,6 +21,7 @@ import { RouterModule } from '@angular/router';
 import { ShowComponent } from './pages/show/show.component';
 import { PaginatorModule } from 'primeng/paginator';
 import { DialogModule } from 'primeng/dialog';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { DialogModule } from 'primeng/dialog';
     // NgbModule,
     ClienteModule,
     PaginatorModule,
-    DialogModule
+    DialogModule,
+    PaginationModule.forRoot(),
   ]
 })
 export class VentaModule { }
