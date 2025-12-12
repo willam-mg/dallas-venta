@@ -1,14 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-// import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, finalize, Subscription, throwError } from 'rxjs';
-// import { User } from 'src/app/models/user';
-import { HttpService } from '../../http.service';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { catchError, Subscription, throwError } from 'rxjs';
 import { HttpService as HttpServiceCliente } from '../../../cliente/http.service';
-// import { ResponseData } from 'src/app/shared/models/response-data';
-// import { Estudiante } from 'src/app/models/estudiante';
-// import { Pagination } from 'src/app/shared/models/pagination';
-// import { Cliente } from 'src/app/models/cliente';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 import { User } from '../../../models/user';
@@ -41,6 +34,7 @@ export class SelectClienteComponent implements OnInit {
 
   constructor(
     private httpServiceCliente: HttpServiceCliente,
+    private cd: ChangeDetectorRef,
     public modal: BsModalRef) {
     this.model = new User();
     this.submitted = false;
@@ -69,6 +63,11 @@ export class SelectClienteComponent implements OnInit {
     this.search();
   }
 
+  pageChangedStudents(event: any) {
+    this.paginationEstudiante.page = event.page;
+    this.searchEstudiante();
+  }
+
   search() {
     this.httpServiceCliente.search(this.formSearch.value.fieldSearch, this.pagination).subscribe((data) => {
       this.responseData = data;
@@ -82,11 +81,12 @@ export class SelectClienteComponent implements OnInit {
       this.responseDataEstudiante = data;
       this.estudiantes = this.responseDataEstudiante.data;
       this.paginationEstudiante.totalCount = data.pages.totalCount;
+      this.cd.detectChanges();
     });
   }
 
   select(cliente: Cliente) {
-    // this.modal.close();
+    this.modal.hide();
     this.isSelected.emit(cliente);
   }
   
@@ -95,7 +95,7 @@ export class SelectClienteComponent implements OnInit {
     console.log(cliente);
     if(cliente) {
       this.isSelected.emit(cliente);
-      // this.modal.close();
+      this.modal.hide();
     }else {
       console.log('no tiene cliente');
       this.submitted = true;
@@ -119,7 +119,7 @@ export class SelectClienteComponent implements OnInit {
             this.searchEstudiante();
             console.log(resCliente);
             this.isSelected.emit(resCliente);
-            // this.modal.close();
+            this.modal.hide();
           })
       );
     }

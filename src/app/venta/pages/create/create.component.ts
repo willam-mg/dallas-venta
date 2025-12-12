@@ -92,6 +92,14 @@ export class CreateComponent implements OnInit {
     // modalRefCliente.componentInstance.isSelected.subscribe((data: Cliente) => {
     //   this.cliente = data;
     // });
+    this.modalRefProducto = this.modalProducto.show(SelectClienteComponent, {
+      class: 'modal-lg'
+    });
+    
+    this.modalRefProducto.content.isSelected.subscribe((data: Cliente) => {
+      this.cliente = data;
+      this.cd.detectChanges();
+    });
   }
   searchProducto() {
     const initialState: ModalOptions = {

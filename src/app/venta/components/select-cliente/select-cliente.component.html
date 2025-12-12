@@ -83,7 +83,7 @@
                             [maxSize]="3"         
                             [boundaryLinks]="false"  
                             [rotate]="true"         
-                            (pageChanged)="pageChanged($event)">
+                            (pageChanged)="pageChangedStudents($event)">
                         </pagination>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of clientes" (click)="select(item)">
+                        <tr *ngFor="let item of clientes" (click)="select(item)" style="cursor:pointer">
                             <th scope="row">{{item.id}}</th>
                             <td>
                                 {{item.tipo == 2? 'Estudiante' : 'Externo' }}
