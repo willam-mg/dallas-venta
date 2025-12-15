@@ -97,56 +97,139 @@
                     <input type="text" style="cursor: pointer;" [(ngModel)]="cliente.nombre_completo"
                         (click)="searchCliente()" readonly class="form-control" placeholder="Buscar ..." aria-label="Buscar"
                         aria-describedby="button-cliente-select">
-                    <!-- <button class="btn btn-outline-secondary" (click)="searchCliente()" type="submit"
+                    <button class="btn btn-outline-secondary" (click)="searchCliente()" type="submit"
                         id="button-cliente-select">
                         <i class="bi bi-hand-index" *ngIf="!cliente.id"></i>
                         <i class="bi bi-check" *ngIf="cliente.id"></i>
-                    </button> -->
+                    </button>
                 </div>
             </div>
-    
+
+            <div class="mb-3 card-title text-start">
+                <h4>
+                    <span class="text-secondary">
+                        Total a pagar:
+                    </span> <br>
+                    {{totalDetalleVenta()}} Bs.
+                </h4>
+            </div>
+
+            <div class="form-group mb-2">
+                <form [formGroup]="formPaymentMethod" (ngSubmit)="registrarVenta()" novalidate="">
+                    <label for="cliente">
+                        Metodo de pago
+                        <span class="text-danger">*</span>
+                    </label>
+                    <div class="card mb-2">
+                        <div class="card-body p-1">
+                            <div class="row justify-content-md-center">
+                                <div class="col-5 p-0 pt-1">
+                                    <i class="bi bi-cash pl-2 text-success"></i>
+                                    <small>
+                                        Efectivo
+                                    </small>
+                                </div>
+                                <div class="col-4 p-0">
+                                    <input type="number" 
+                                        formControlName="paymentMethodCash" 
+                                        class="form-control" 
+                                        placeholder="00.00" 
+                                        aria-label="Efectivo"
+                                        aria-describedby="button-cliente-select">
+                                </div>
+                                <div class="col-2 pl-1 pt-1">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" 
+                                            type="checkbox" 
+                                            id="flexSwitchCheckDefault" 
+                                            [checked]="this.formPaymentMethod.controls['paymentMethodCash'].value > 0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-2">
+                        <div class="card-body p-1">
+                            <div class="row justify-content-md-center">
+                                <div class="col-5 p-0 pt-1">
+                                    <i class="bi bi-qr-code pl-2 text-primary"></i>
+                                    <small>
+                                        QR &nbsp; &nbsp; &nbsp; &nbsp;
+                                    </small>
+                                </div>
+                                <div class="col-4 p-0">
+                                    <input type="number" 
+                                        formControlName="paymentMethodQr" 
+                                        class="form-control" 
+                                        placeholder="00.00" 
+                                        aria-label="Efectivo"
+                                        aria-describedby="button-cliente-select">
+                                </div>
+                                <div class="col-2 pl-1 pt-1">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" 
+                                            type="checkbox" 
+                                            id="flexSwitchCheckDefault" 
+                                            [checked]="this.formPaymentMethod.controls['paymentMethodQr'].value > 0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-2">
+                        <div class="card-body p-1">
+                            <div class="row justify-content-md-center p-0">
+                                <div class="col-5 p-0 pt-1">
+                                    <i class="bi bi-arrow-left-right pl-2 text-warning"></i> 
+                                    <small>
+                                        Tranferencia
+                                    </small>
+                                </div>
+                                <div class="col-4 p-0">
+                                    <input type="number" 
+                                        formControlName="paymentMethodTransfer" 
+                                        class="form-control" 
+                                        placeholder="00.00" 
+                                        aria-label="Efectivo"
+                                        aria-describedby="button-cliente-select">
+                                </div>
+                                <div class="col-2 pl-1 pt-1">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" 
+                                            type="checkbox" 
+                                            id="flexSwitchCheckDefault" 
+                                            [checked]="this.formPaymentMethod.controls['paymentMethodTransfer'].value > 0">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
             <div class="form-group mb-3">
                 <label for="fieldObservacion">Observacion</label>
-                <textarea [(ngModel)]="fieldObservacion" id="fieldObservacion" class="form-control" cols="5" rows="1"></textarea>
+                <textarea [(ngModel)]="fieldObservacion" id="fieldObservacion" class="form-control" cols="5" rows="3"></textarea>
             </div>
-            
-            <div class="card mb-3">
-                <div class="card-body">
-                    <div class="mb-3 card-title text-center">
-                        <h4>Total: {{totalDetalleVenta()}} Bs</h4>
-                    </div>
-                    <div class="mb-3">
-                        <label>Efectivo</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Efectivo" [(ngModel)]="inputEfectivo" (keyup)="calcCambio()" [disabled]="totalDetalleVenta() == 0" title="Efectivo">
-                            <button class="btn btn-outline-secondary" disabled title="Cambio"> Bs. </button>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <label>Cambio</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-dark text-white" placeholder="Cambio" [(ngModel)]="inputCambio" disabled title="Cambio">
-                            <button class="btn btn-outline-secondary" disabled title="Cambio"> Bs. </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-2">
+
+            <!-- <div class="mb-2">
                 <div class="input-group">
                     <button class="btn btn-outline-secondary" disabled title="Efectivo">
                         <i class="bi bi-calendar"></i>
                     </button>
                     <input type="date" class="form-control" placeholder="Efectivo" [(ngModel)]="inputFecha" title="Fecha">
                 </div>
-            </div>
-            <div class="">
+            </div> -->
+            <!-- <div class="">
                 <div class="input-group">
                     <button class="btn btn-outline-secondary" disabled title="Efectivo">
                         <i class="bi bi-clock"></i>
                     </button>
                     <input type="time" class="form-control" placeholder="Efectivo" [(ngModel)]="inputHora" title="Hora">
                 </div>
-            </div>
+            </div> -->
+
             <div class="mb-3 position-fixed bottom-0" style="width: 250px;">
                 <div class="d-grid gap-2">
                     <button class="btn btn-lg btn-success" (click)="registrarVenta()" [disabled]="submitted">

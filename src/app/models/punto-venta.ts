@@ -3,6 +3,7 @@ export class PuntoVenta {
     nombre: string;
     detalle: string;
     sucursal: string;
+    logo?: string;
 
     constructor() {
         this.nombre = "";

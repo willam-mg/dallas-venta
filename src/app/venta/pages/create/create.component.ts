@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, viewChild, ViewChild } from '@angular/core';
 import { HttpService } from '../../http.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { User } from '../../../models/user';
@@ -29,58 +29,57 @@ import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent implements OnInit {
-  subscription: Subscription;
-  submitted: Boolean;
-  cliente: Cliente;
-  almacen: Almacen;
-  responseData: ResponseData;
-  pagination: Pagination;
-  formVenta: FormGroup;
-  formSearchCodebar: FormGroup;
-  detalleVenta: Array<DetalleVenta>;
-  inputCantidad: number;
-  fieldObservacion: string;
-  venta: Venta;
-  inputEfectivo: number;
-  inputCambio: number;
-  inputFecha: string;
-  inputHora: string;
+  subscription: Subscription = new Subscription;
+  modalRefProducto!: BsModalRef;
+
+  submitted: Boolean = false;
+  cliente: Cliente = new Cliente(6, 'SIN NOMBRE', '000000');
+  almacen: Almacen = new Almacen();
+  responseData: ResponseData = new ResponseData();
+  pagination: Pagination = new Pagination();
+  venta: Venta = new Venta();
+  detalleVenta: DetalleVenta[] = [];
+  formVenta!: FormGroup;
+  formSearchCodebar!: FormGroup;
+  formPaymentMethod!: FormGroup;
+  inputCantidad: number = 1;
+  fieldObservacion: string = '';
+  inputEfectivo: number = 0;
+  inputCambio: number = 0;
+  inputFecha = moment().format('YYYY-MM-DD');
+  inputHora = moment().format('HH:mm');
+  // paymentTypeCashAmount:number = 0;
+  // paymentTypeQrAmount:number = 0;
+  // paymentTypeTransferAmount:number = 0;
+
   @ViewChild(SelectClienteComponent) selectClienteComponent: any;
   @ViewChild(SelectProductoComponent) selectProductoComponent: any;
-  modalRefProducto!: BsModalRef;
 
   constructor(
     private title: Title,
     private router: Router,
-    // private modalCliente: NgbModal,
     private modalProducto: BsModalService,
     private httpService: HttpService,
     private cd: ChangeDetectorRef,
-    private productoHttpService:ProductoHttpService) {
+    private productoHttpService:ProductoHttpService) {}
+
+  ngOnInit(): void {
     this.title.setTitle('Nueva venta');
-    this.responseData = new ResponseData();
-    this.subscription = new Subscription();
-    this.submitted = false;
-    this.pagination = new Pagination();
-    this.cliente = new Cliente();
-    this.almacen = new Almacen();
+
     this.formVenta = new FormGroup({
       fieldSearch: new FormControl(""),
     });
+
     this.formSearchCodebar = new FormGroup({
       codeBar: new FormControl(""),
     });
-    this.detalleVenta = [];
-    this.inputCantidad = 1;
-    this.fieldObservacion = "";
-    this.venta = new Venta();
-    this.inputEfectivo = 0;
-    this.inputCambio = 0;
-    this.inputFecha = moment().format('YYYY-MM-DD');
-    this.inputHora = moment().format('hh:mm');
-  }
+    this.formPaymentMethod = new FormGroup({
+      paymentMethodCash: new FormControl(0),
+      paymentMethodQr: new FormControl(0),
+      paymentMethodTransfer: new FormControl(0),
+    });
 
-  ngOnInit(): void {
+    this.venta = new Venta();
   }
 
   ngOnDestroy(): void {
@@ -88,10 +87,6 @@ export class CreateComponent implements OnInit {
   }
 
   searchCliente() {
-    // const modalRefCliente = this.modalCliente.open(SelectClienteComponent, { size: 'lg' });
-    // modalRefCliente.componentInstance.isSelected.subscribe((data: Cliente) => {
-    //   this.cliente = data;
-    // });
     this.modalRefProducto = this.modalProducto.show(SelectClienteComponent, {
       class: 'modal-lg'
     });
@@ -101,6 +96,7 @@ export class CreateComponent implements OnInit {
       this.cd.detectChanges();
     });
   }
+
   searchProducto() {
     const initialState: ModalOptions = {
       class: 'modal-lg',
@@ -114,7 +110,7 @@ export class CreateComponent implements OnInit {
       this.almacen = data;
       this.addDetalleVenta(data);
 
-      this.modalRefProducto.hide(); // Cerrar modal
+      this.modalRefProducto.hide();
       this.cd.detectChanges();
     });
   }
@@ -179,6 +175,8 @@ export class CreateComponent implements OnInit {
     } else {
       this.detalleVenta.push(detalle);
     }
+
+    this.formPaymentMethod.controls['paymentMethodCash'].setValue(this.totalDetalleVenta());
   }
 
   removeDetalle(detalle:DetalleVenta) {
@@ -186,6 +184,18 @@ export class CreateComponent implements OnInit {
     if (index > -1) {
       this.detalleVenta.splice(index, 1);
     }
+  }
+
+  checkAmountPaymentType(): boolean {
+    let totalSum = Number(this.formPaymentMethod.controls['paymentMethodCash'].value) + 
+      Number(this.formPaymentMethod.controls['paymentMethodQr'].value) + 
+      Number(this.formPaymentMethod.controls['paymentMethodTransfer'].value);
+
+    if (totalSum > this.totalDetalleVenta()) {
+      return false;
+    }
+
+    return true;
   }
 
   totalDetalleVenta() {
@@ -197,6 +207,15 @@ export class CreateComponent implements OnInit {
   }
 
   registrarVenta() {
+    if ( this.checkAmountPaymentType() == false ) {
+      Swal.fire(
+        '',
+        'Revise los montos en el método de pago',
+        'warning'
+      );
+      return ;
+    }
+
     Swal.fire({
       title: 'Ventas',
       text: "¿Registrar venta?",
@@ -212,6 +231,27 @@ export class CreateComponent implements OnInit {
         this.venta.detalleVenta = this.detalleVenta;
         this.venta.fecha = this.inputFecha;
         this.venta.hora = this.inputHora;
+        this.venta.payments = [];
+
+        if (Number(this.formPaymentMethod.controls['paymentMethodCash'].value) > 0) {
+          this.venta.payments.push({
+            amount: this.formPaymentMethod.controls['paymentMethodCash'].value,
+            payment_method: 'cash',
+          });
+        }
+        if (Number(this.formPaymentMethod.controls['paymentMethodQr'].value) > 0) {
+          this.venta.payments.push({
+            amount: this.formPaymentMethod.controls['paymentMethodQr'].value,
+            payment_method: 'qr',
+          });
+        }
+        if (Number(this.formPaymentMethod.controls['paymentMethodTransfer'].value) > 0) {
+          this.venta.payments.push({
+            amount: this.formPaymentMethod.controls['paymentMethodTransfer'].value,
+            payment_method: 'transfer',
+          });
+        }
+
         this.httpService.create(this.venta)
           .pipe(
             catchError((error: HttpErrorResponse) => {

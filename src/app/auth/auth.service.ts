@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
 import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { of, throwError, Observable } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { User } from '../models/user';
 import { PuntoVenta } from '../models/punto-venta';
+import { environment } from '../../environments/environment';
 
 const httpHeaders = {
   headers: new HttpHeaders(environment.apiConfig.headers),
@@ -32,6 +32,9 @@ export class AuthService {
 
   public getSucursalName():string | null {
     return localStorage.getItem(environment.store.sucursal);
+  }
+  public getLogo():string | null {
+    return localStorage.getItem(environment.store.logo);
   }
 
   public register(body: User): Observable<User> {

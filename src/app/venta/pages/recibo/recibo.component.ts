@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { User } from '../../../models/user';
-import { Venta } from '../../../models/venta';
 import { HttpService } from '../../http.service';
+import { Venta } from '../../../models/venta';
+import { User } from '../../../models/user';
 import { AuthService } from '../../../auth/auth.service';
 
 @Component({
@@ -19,6 +19,8 @@ export class ReciboComponent implements OnInit {
   venta: Venta;
   user: User;
   sucursalName: string;
+  logoPuntoVenta: string = '';
+
   constructor(
     private route: ActivatedRoute,
     private httpsService: HttpService,
@@ -29,6 +31,7 @@ export class ReciboComponent implements OnInit {
     this.venta = new Venta();
     this.idVenta = 0;
     this.sucursalName = this.authService.getSucursalName()!;
+    this.logoPuntoVenta = this.authService.getLogo()!;
     this.user = this.authService.getUserIdentity() ? this.authService.getUserIdentity()! : new User();
   }
 
@@ -36,7 +39,6 @@ export class ReciboComponent implements OnInit {
     this.subscription.add(
       this.route.queryParams.subscribe(params => {
         this.idVenta = Number(params['id']);
-        alert(this.idVenta);
         this.title.setTitle('Venta ' + this.idVenta);
         this.loadVenta();
       })
@@ -53,7 +55,7 @@ export class ReciboComponent implements OnInit {
 
   totalDetalleVenta() {
     let suma = 0;
-    this.venta.detalleVenta.map((item) => {
+    this.venta.detalleVenta.map((item: any) => {
       let subtotal = item.precio * item.cantidad;
       suma += subtotal;
     });

@@ -1,5 +1,6 @@
 import { Cliente } from "./cliente";
 import { DetalleVenta } from "./detalle-venta";
+import { Payment } from "./payment";
 import { PuntoVenta } from "./punto-venta";
 import { User } from "./user";
 
@@ -17,6 +18,7 @@ export class Venta {
     puntoVenta: PuntoVenta;
     detalleVenta: Array<DetalleVenta>;
     total: number;
+    payments: Payment[] = [];
 
     constructor() {
         this.fecha = "";

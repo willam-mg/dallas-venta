@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { User } from '../../../models/user';
 import { AuthService } from '../../auth.service';
 import { Subscription } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { User } from '../../../models/user';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -59,6 +58,7 @@ export class LoginComponent implements OnInit {
               localStorage.setItem(environment.store.userData, JSON.stringify(data));
               localStorage.setItem(environment.store.puntoVentaId, String(data.punto_venta_id));
               localStorage.setItem(environment.store.sucursal, String(data.puntoVenta?.sucursal));
+              localStorage.setItem(environment.store.logo, String(data.puntoVenta?.logo));
               localStorage.setItem(environment.store.puntoVentaNombre, String(data.puntoVenta?.nombre));
               this.user = new User();
               this.submitted = false;

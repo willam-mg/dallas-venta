@@ -9,11 +9,13 @@ export class Cliente {
     ci: string;
     puntos: number;
 
-    constructor() {
+    constructor(id?: number, nombre_completo?: string, ci?:string) {
+        this.id = id;
+        this.nombre_completo = nombre_completo ?? "";
+        this.ci = ci ?? "";
+        
         this.sucursal = "";
         this.tipo = 2;
-        this.nombre_completo = "";
-        this.ci = "";
         this.puntos = 0;
     }
 

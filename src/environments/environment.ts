@@ -9,6 +9,7 @@ export const environment = {
     userToken: 'UTrAcUsL',
     userData: 'CumbeANC',
     sucursal: 'ermItyrO',
+    logo: 'erlogyrO',
     puntoVentaId: 'deCentER',
     puntoVentaNombre: 'WitROxia',
   },
