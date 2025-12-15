@@ -9,6 +9,7 @@ export interface Payment {
   amount: number;
 
   payment_method: 'cash' | 'qr' | 'transfer';
+  payment_method_label?: string;
 
   date?: string;
   time?: string;
