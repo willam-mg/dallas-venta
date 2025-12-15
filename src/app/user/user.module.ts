@@ -15,6 +15,8 @@ import { CreateComponent } from './pages/create/create.component';
 //       } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
+import { RouterModule } from '@angular/router';
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
     UserRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
+    DialogModule
     // NgbTypeaheadModule,
     // NgbPaginationModule,
     // NgbDatepickerModule,

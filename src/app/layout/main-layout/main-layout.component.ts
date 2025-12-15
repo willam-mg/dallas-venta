@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 // import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ChangePasswordComponent } from '../../user/pages/change-password/change-password.component';
 import Swal from 'sweetalert2';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-main-layout',
@@ -24,10 +25,12 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
   user: User;
   sucursalName: string;
   isLoading: boolean;
+  modalRef!: BsModalRef;
+
   constructor(
     public authService: AuthService,
     public readonly router: Router,
-    // private modalService: NgbModal,
+    private modalService: BsModalService,
     public title: Title,
     public loadingService: LoadingService,
     private changeDetector: ChangeDetectorRef) {
@@ -59,7 +62,25 @@ export class MainLayoutComponent implements OnInit, AfterViewInit {
   }
 
   changePassword() {
-    // const modalRef = this.modalService.open(ChangePasswordComponent);
+    this.modalRef = this.modalService.show(ChangePasswordComponent, {
+      class: 'modal-lg'
+    });
+
+    this.modalRef.content.isUpdated.subscribe((data: boolean) => {
+      if (data) {
+        Swal.fire(
+          'Guardado',
+          'los datos se guardaron correctamente',
+          'success'
+        );
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      }
+      // this.cd.detectChanges();
+    });
+
+
+
     // modalRef.componentInstance.isUpdated.subscribe((data:boolean) => {
     //   if (data) {
     //     Swal.fire(
