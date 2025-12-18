@@ -77,6 +77,7 @@ export class CreateComponent implements OnInit {
       paymentMethodCash: new FormControl(0),
       paymentMethodQr: new FormControl(0),
       paymentMethodTransfer: new FormControl(0),
+      cambio: new FormControl(0),
     });
 
     this.venta = new Venta();
@@ -187,11 +188,11 @@ export class CreateComponent implements OnInit {
   }
 
   checkAmountPaymentType(): boolean {
-    let totalSum = Number(this.formPaymentMethod.controls['paymentMethodCash'].value) + 
+    const totalSum = Number(this.formPaymentMethod.controls['paymentMethodCash'].value) + 
       Number(this.formPaymentMethod.controls['paymentMethodQr'].value) + 
       Number(this.formPaymentMethod.controls['paymentMethodTransfer'].value);
-
-    if (totalSum > this.totalDetalleVenta()) {
+    const realAmount = totalSum - Number(this.formPaymentMethod.controls['cambio'].value);
+    if (realAmount > this.totalDetalleVenta()) {
       return false;
     }
 
@@ -234,8 +235,10 @@ export class CreateComponent implements OnInit {
         this.venta.payments = [];
 
         if (Number(this.formPaymentMethod.controls['paymentMethodCash'].value) > 0) {
+          const amountCashInput = Number(this.formPaymentMethod.controls['paymentMethodCash'].value);
+          const total = this.totalDetalleVenta();
           this.venta.payments.push({
-            amount: this.formPaymentMethod.controls['paymentMethodCash'].value,
+            amount: amountCashInput > total? total: amountCashInput,
             payment_method: 'cash',
           });
         }
@@ -285,8 +288,9 @@ export class CreateComponent implements OnInit {
 
   calcCambio() {
     let total = this.totalDetalleVenta();
-    if (this.inputEfectivo >= total && total > 0 ) {
-      this.inputCambio = this.inputEfectivo - total;
+    let cashAmount = this.formPaymentMethod.controls['paymentMethodCash'].value;
+    if (cashAmount >= total && total > 0 ) {
+      this.formPaymentMethod.controls['cambio'].setValue(cashAmount - total);
     }
   }
 

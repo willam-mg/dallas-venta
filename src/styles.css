@@ -33,3 +33,23 @@
 .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
     background-color: #444444;
 }
+.fixed-top-desktop {
+     position:fixed; 
+     top:11vh; 
+     right:0; 
+     width:296px
+}
+
+@media only screen and (max-width: 600px) {
+    .fixed-top-desktop {
+         position:inherit; 
+         top:0; 
+         right:0; 
+         width:100%
+    }
+}
+
+.fs-5 {
+    font-size: 0.7rem !important;
+}
+
