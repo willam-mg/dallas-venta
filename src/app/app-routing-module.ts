@@ -61,6 +61,15 @@ const routes: Routes = [
     }
   },
   {
+    path: 'cash-movements',
+    component: MainLayoutComponent,
+    loadChildren: () => import('./cash-movement/cash-movement.module').then(m => m.CashMovementModule),
+    canActivate: [AuthGuard],
+    data: {
+      breadcrumb: 'Movimientos'
+    }
+  },
+  {
     path: 'login',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
     canActivate: [LoginGuard],

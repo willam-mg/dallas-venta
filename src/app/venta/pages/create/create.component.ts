@@ -1,17 +1,14 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, viewChild, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { HttpService } from '../../http.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { User } from '../../../models/user';
 import { ResponseData } from '../../../shared/models/response-data';
 import { Title } from '@angular/platform-browser';
 import { Pagination } from '../../../shared/models/pagination';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import Swal from 'sweetalert2';
 import { Cliente } from '../../../models/cliente';
 import { SelectClienteComponent } from '../../components/select-cliente/select-cliente.component';
 import { SelectProductoComponent } from '../../components/select-producto/select-producto.component';
-import { Producto } from '../../../models/producto';
 import { Almacen } from '../../../models/almacen';
 import { HttpService as ProductoHttpService } from '../../../producto/http.service';
 import { DetalleVenta } from '../../../models/detalle-venta';
@@ -48,9 +45,6 @@ export class CreateComponent implements OnInit {
   inputCambio: number = 0;
   inputFecha = moment().format('YYYY-MM-DD');
   inputHora = moment().format('HH:mm');
-  // paymentTypeCashAmount:number = 0;
-  // paymentTypeQrAmount:number = 0;
-  // paymentTypeTransferAmount:number = 0;
 
   @ViewChild(SelectClienteComponent) selectClienteComponent: any;
   @ViewChild(SelectProductoComponent) selectProductoComponent: any;

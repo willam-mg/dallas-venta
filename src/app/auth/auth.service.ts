@@ -57,6 +57,10 @@ export class AuthService {
   public getToken(): string | null {
     return localStorage.getItem(environment.store.userToken);
   }
+  public getPuntoVenta(): number | null {
+    const puntoVentaId = localStorage.getItem(environment.store.puntoVentaId);
+    return puntoVentaId? Number(puntoVentaId)! : null;
+  }
 
   public puntosVenta():Observable<PuntoVenta[]> {
     return this.http.get<PuntoVenta[]>(`${path}/punto-venta`);
