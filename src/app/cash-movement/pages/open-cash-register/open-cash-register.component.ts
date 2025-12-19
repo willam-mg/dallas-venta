@@ -46,7 +46,7 @@ export class OpenCashRegisterComponent implements OnInit {
         this.formCashRegister.value.comment).subscribe({
           next: () => {
             this.isOpened.emit(true);
-            this.modal.hide();
+            // this.modal.hide();
           },
           error: (error) => {
             Swal.fire('Error', error.error.message, 'error');

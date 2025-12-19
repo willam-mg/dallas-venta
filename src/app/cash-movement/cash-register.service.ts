@@ -42,13 +42,32 @@ export class CashRegisterService {
     return this.http.post<ResponseData>(`${path}/cash-register/open`, payload, httpHeaders);
   }
   
+  public closeCashRegister(
+    puntoVentaId: number, 
+    closingAmount: number, 
+    comment: string): Observable<ResponseData> {
+    const payload = {
+      punto_venta_id: puntoVentaId,
+      real_closing_amount: closingAmount,
+      comment: comment
+    };
+    return this.http.post<ResponseData>(`${path}/cash-register/close`, payload, httpHeaders);
+  }
+  
   public getCashRegisterOpened(puntoVentaId: number): Observable<CashRegister | null> {
     const payload = {
       punto_venta_id: puntoVentaId
     };
 
     return this.http.post<CashRegister | null>(`${path}/cash-register/opened`, payload, httpHeaders);
+  }
+  
+  public getCashRegisterClosed(puntoVentaId: number): Observable<CashRegister | null> {
+    const payload = {
+      punto_venta_id: puntoVentaId
+    };
 
+    return this.http.post<CashRegister | null>(`${path}/cash-register/closed`, payload, httpHeaders);
   }
 
 }

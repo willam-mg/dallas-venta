@@ -3,12 +3,12 @@
   <button type="button" class="btn-close" (click)="modal.hide()"></button>
 </div>
 
-<form [formGroup]="formCashRegister" (ngSubmit)="openCashRegister()">
+<form [formGroup]="formCashRegister" (ngSubmit)="closeCashRegister()">
   <div class="modal-body">
 
     <!-- Monto apertura -->
     <div class="mb-3">
-      <label class="form-label">Monto inicial</label>
+      <label class="form-label">Monto de cierre</label>
       <input type="number" class="form-control" formControlName="openingAmount" placeholder="0.00" />
 
       <small class="text-danger" *ngIf="formCashRegister.controls['openingAmount'].touched &&
@@ -37,9 +37,9 @@
       Cerrar
     </button>
 
-    <button type="submit" class="btn btn-primary" [disabled]="formCashRegister.invalid">
+    <button type="submit" class="btn btn-danger" [disabled]="formCashRegister.invalid">
       <i class="bi bi-unlock"></i>
-      Abrir caja
+      Cerrar caja
     </button>
   </div>
 </form>

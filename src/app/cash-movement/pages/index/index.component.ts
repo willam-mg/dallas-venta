@@ -31,6 +31,7 @@ export class IndexComponent implements OnInit {
   modalRefProducto!: BsModalRef;
   isCashRegisterOpened: boolean = false;
   cashRegister: CashRegister | null = new CashRegister();
+  cashRegisterClosed: CashRegister | null = new CashRegister();
   puntoVentaId: number | null = null;
 
   constructor(
@@ -54,9 +55,30 @@ export class IndexComponent implements OnInit {
   ngOnInit(): void {
     this.search();
     this.puntoVentaId = this.authService.getPuntoVenta();
+    this.getCashRegister();
+  }
+
+  getCashRegister() {
     this.cashRegisterService.getCashRegisterOpened(this.puntoVentaId!).subscribe({
       next: (result) => {
-        this.cashRegister = result;
+        if(result){
+          this.cashRegister = result;
+        } else {
+          this.cashRegister = null;
+          this.getCashRegisterClosed();
+        }
+      },
+      error: (error) => {
+        Swal.fire('Error', error.error.message, 'error');
+      }
+    });
+  }
+  
+  getCashRegisterClosed() {
+    this.cashRegisterService.getCashRegisterClosed(this.puntoVentaId!).subscribe({
+      next: (result) => {
+        this.cashRegisterClosed = result;
+        console.log('closed', this.cashRegisterClosed);
       },
       error: (error) => {
         Swal.fire('Error', error.error.message, 'error');
@@ -87,12 +109,13 @@ export class IndexComponent implements OnInit {
     };
     this.modalRefProducto = this.modalProducto.show(OpenCashRegisterComponent, initialState);
     
-    this.modalRefProducto.content.isSelected.subscribe((data: Almacen) => {
+    this.modalRefProducto.content.isOpened.subscribe((data: Almacen) => {
       Swal.fire(
         '',
         'Caja abierta',
         'success'
       );
+      this.getCashRegister();
 
       this.modalRefProducto.hide();
     });
@@ -104,22 +127,32 @@ export class IndexComponent implements OnInit {
     };
     this.modalRefProducto = this.modalProducto.show(CloseCashRegisterComponent, initialState);
     
-    this.modalRefProducto.content.isSelected.subscribe((data: Almacen) => {
+    this.modalRefProducto.content.isOpened.subscribe((data: Almacen) => {
       Swal.fire(
         '',
-        'Caja abierta',
+        'Caja cerrada',
         'success'
       );
+
+      this.getCashRegister();
 
       this.modalRefProducto.hide();
     });
   }
 
   getOpenedAtHuman(): string {
-    if (!this.cashRegister) return '';
+    return this.getDateTimeHuman(this.cashRegister?.date_opened_at!, this.cashRegister?.time_opened_at!);
+  }
+  
+  getClosedAtHuman(): string {
+    return this.getDateTimeHuman(this.cashRegisterClosed?.date_closed_at!, this.cashRegisterClosed?.time_closed_at!);
+  }
+  
+  getDateTimeHuman(dateParam: string, timeParam: string): string {
+    if (!this.cashRegisterClosed) return '';
 
     const date = new Date(
-      this.cashRegister.date_opened_at + 'T' + this.cashRegister.time_opened_at
+      dateParam + 'T' + timeParam
     );
 
     const now = new Date();

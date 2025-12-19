@@ -38,9 +38,9 @@ export class CloseCashRegisterComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
-  openCashRegister() {
+  closeCashRegister() {
     this.subscription.add(
-      this.cashRegisterService.openCashRegister(
+      this.cashRegisterService.closeCashRegister(
         this.formCashRegister.value.puntoVentaId, 
         this.formCashRegister.value.openingAmount, 
         this.formCashRegister.value.comment).subscribe({
