@@ -20,7 +20,6 @@ export const environment = {
       'Cache-Control': 'no-cache',
     },
     path: 'http://importer.local:8080/api'
-    // path: 'http://impoter.local:8080/api'
   }
 };
 
