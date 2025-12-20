@@ -103,7 +103,7 @@
   </div>
 
   <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
-    <form [formGroup]="formProducto" (ngSubmit)="search()" novalidate="">
+    <form [formGroup]="formSearch" (ngSubmit)="search()" novalidate="">
       <div class="input-group mb-3">
         <input type="text" formControlName="fieldCodigo" class="form-control w-25" placeholder="Codigo"
           aria-label="Buscar" aria-describedby="button-addon2">
@@ -126,40 +126,26 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Codigo</th>
-        <th scope="col">Nombre</th>
-        <th scope="col">Marca</th>
-        <th scope="col">Area</th>
-        <th scope="col">Precio</th>
-        <th scope="col">Detalle</th>
-        <th scope="col">Stock</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Hora</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Concepto</th>
+        <th scope="col">Metodo de pago</th>
+        <th scope="col">Monto</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of almacenes">
+      <tr *ngFor="let item of cashMovements">
         <th scope="row">{{item.id}}</th>
-        <th scope="row">{{item.producto.id}}</th>
-        <td>{{item.producto.nombre}}</td>
-        <td>{{item.producto.marca}}</td>
-        <td>{{item.producto.area}}</td>
-        <td>{{item.producto.precio}}</td>
-        <td>{{item.producto.detalle}}</td>
-        <td>{{item.cantidad}}</td>
-        <td>
-          <div class="dropdown">
-            <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-three-dots-vertical"></i>
-            </button>
-            <ul class="dropdown-menu">
-              <button class="dropdown-item" type="button">
-                <i class="bi bi-eye"></i> Ver
-              </button>
-            </ul>
-          </div>
-        </td>
+        <th scope="row">{{item.date_created}}</th>
+        <th scope="row">{{item.time_created}}</th>
+        <td>{{item.type == cashMovementTypeIN? 'Entrada': 'Salida'}}</td>
+        <td>{{item.concept}}</td>
+        <td>{{item.payment_method}}</td>
+        <td>{{item.amount}}</td>
       </tr>
-      <tr *ngIf="almacenes.length == 0">
-        <td colspan="6" class="text-center">
+      <tr *ngIf="cashMovements.length == 0">
+        <td colspan="7" class="text-center">
           No hay registros
         </td>
       </tr>

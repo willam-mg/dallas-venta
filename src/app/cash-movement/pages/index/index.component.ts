@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { ResponseData } from '../../../shared/models/response-data';
 import { Title } from '@angular/platform-browser';
 import { Pagination } from '../../../shared/models/pagination';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Almacen } from '../../../models/almacen';
 import { CashMovementService } from '../../cash-movements.service';
@@ -13,6 +13,8 @@ import { CashRegisterService } from '../../cash-register.service';
 import { AuthService } from '../../../auth/auth.service';
 import { CashRegister } from '../../../models/cash-register';
 import { CloseCashRegisterComponent } from '../close-cash-register/close-cash-register.component';
+import { CashMovement } from '../../../models/cash-movement';
+import { CashMovementType } from '../../../shared/constants/cash-movement.constants';
 
 
 @Component({
@@ -22,17 +24,18 @@ import { CloseCashRegisterComponent } from '../close-cash-register/close-cash-re
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
-  subscription: Subscription;
-  submitted: Boolean;
-  almacenes: Array<Almacen>;
-  responseData: ResponseData;
-  pagination: Pagination;
-  formProducto: FormGroup;
+  subscription: Subscription = new Subscription();
+  submitted: Boolean = false;
+  cashMovements: CashMovement[] = [];
+  responseData: ResponseData = new ResponseData();
+  pagination: Pagination = new Pagination();
+  formSearch!: FormGroup;
   modalRefProducto!: BsModalRef;
   isCashRegisterOpened: boolean = false;
   cashRegister: CashRegister | null = new CashRegister();
   cashRegisterClosed: CashRegister | null = new CashRegister();
   puntoVentaId: number | null = null;
+  cashMovementTypeIN: CashMovementType = CashMovementType.IN;
 
   constructor(
     private httpService: CashMovementService,
@@ -40,21 +43,18 @@ export class IndexComponent implements OnInit {
     private modalProducto: BsModalService,
     private authService: AuthService,
     private title: Title) {
-    this.subscription = new Subscription();
-    this.submitted = false;
-    this.almacenes = [];
-    this.responseData = new ResponseData();
-    this.title.setTitle('Movimientos');
-    this.pagination = new Pagination();
-    this.formProducto = new FormGroup({
-      fieldNombre: new FormControl(""),
-      fieldCodigo: new FormControl(""),
-    });
   }
 
   ngOnInit(): void {
-    this.search();
+    this.title.setTitle('Movimientos');
+
+    this.formSearch = new FormGroup({
+      fieldNombre: new FormControl(""),
+      fieldCodigo: new FormControl(""),
+    });
+
     this.puntoVentaId = this.authService.getPuntoVenta();
+    this.search();
     this.getCashRegister();
   }
 
@@ -93,10 +93,10 @@ export class IndexComponent implements OnInit {
   search(): void {
     this.submitted = true;
     this.subscription.add(
-      this.httpService.search(this.formProducto.value, this.pagination).subscribe(data => {
+      this.httpService.search(this.puntoVentaId!, this.pagination).subscribe(data => {
         this.submitted = false;
         this.responseData = data;
-        this.almacenes = this.responseData.data;
+        this.cashMovements = this.responseData.data;
         this.pagination.totalCount = data.pages.totalCount;
       })
     );

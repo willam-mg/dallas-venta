@@ -29,14 +29,13 @@ export class CashMovementService {
   * @param filterSearch Cliente
   * @returns Observable<Cliente[]>
   */
-  public search(filterSearch: any, pagination: Pagination): Observable<ResponseData> {
+  public search(puntoVentaId: number, pagination: Pagination): Observable<ResponseData> {
     let params = new HttpParams();
     params = params.append('page', pagination.page.toString());
     params = params.append('per-page', pagination.pageSize.toString());
-    // params = params.append('filter', filterSearch.fieldNombre);
-    // params = params.append('filterCodigo', filterSearch.fieldCodigo);
+    params = params.append('puntoVentaId', puntoVentaId);
 
-    return this.http.get<ResponseData>(`${path}/cash-movements`, {
+    return this.http.get<ResponseData>(`${path}/cash-movement`, {
       headers: new HttpHeaders(environment.apiConfig.headers),
       reportProgress: true,
       params: params
