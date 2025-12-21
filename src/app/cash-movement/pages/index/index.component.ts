@@ -28,7 +28,7 @@ export class IndexComponent implements OnInit {
   submitted: Boolean = false;
   cashMovements: CashMovement[] = [];
   responseData: ResponseData = new ResponseData();
-  pagination: Pagination = new Pagination();
+  pagination: Pagination = new Pagination(1, 20, 0);
   formSearch!: FormGroup;
   modalRefProducto!: BsModalRef;
   isCashRegisterOpened: boolean = false;
@@ -36,6 +36,7 @@ export class IndexComponent implements OnInit {
   cashRegisterClosed: CashRegister | null = new CashRegister();
   puntoVentaId: number | null = null;
   cashMovementTypeIN: CashMovementType = CashMovementType.IN;
+  cashMovementTypeOUT: CashMovementType = CashMovementType.OUT;
 
   constructor(
     private httpService: CashMovementService,
@@ -116,6 +117,7 @@ export class IndexComponent implements OnInit {
         'success'
       );
       this.getCashRegister();
+      this.search();
 
       this.modalRefProducto.hide();
     });
@@ -135,6 +137,7 @@ export class IndexComponent implements OnInit {
       );
 
       this.getCashRegister();
+      this.search();
 
       this.modalRefProducto.hide();
     });

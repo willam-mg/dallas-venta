@@ -3,19 +3,21 @@ import { PaymentMethod } from "../shared/constants/payment-method.constants";
 
 export class CashMovement {
 
-  // Constantes equivalentes a Yii2
-  static readonly TYPE_IN  = 'IN';
-  static readonly TYPE_OUT = 'OUT';
+  // // Constantes equivalentes a Yii2
+  // static readonly TYPE_IN  = 'IN';
+  // static readonly TYPE_OUT = 'OUT';
 
-  static readonly PAYMENT_CASH     = 'cash';
-  static readonly PAYMENT_QR       = 'qr';
-  static readonly PAYMENT_TRANSFER = 'transfer';
+  // static readonly PAYMENT_CASH     = 'cash';
+  // static readonly PAYMENT_QR       = 'qr';
+  // static readonly PAYMENT_TRANSFER = 'transfer';
 
   id!: number;
   cash_register_id!: number;
   type!: CashMovementType;
+  type_label!: string;
   amount!: number;
   payment_method!: PaymentMethod;
+  payment_method_label!: string;
   concept!: string;
 
   reference_type?: string | null;

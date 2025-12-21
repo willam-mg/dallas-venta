@@ -12,12 +12,16 @@ export class CashRegister {
     time_closed_at?: string;
     status: string;
     comment?: number;
-    balance: number;
+    cash_balance: number;
+    qr_balance: number;
+    transfer_balance: number;
 
     constructor() {
         this.punto_venta_id = 0;
         this.opening_amount = 0;
-        this.balance = 0.00;
+        this.cash_balance = 0.00;
+        this.qr_balance = 0.00;
+        this.transfer_balance = 0.00;
         this.date_opened_at = '';
         this.time_opened_at = '';
         this.status = '';

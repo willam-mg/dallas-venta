@@ -6,13 +6,15 @@ import { CashMovementRoutingModule } from './cash-movements-routing.module';
 import { IndexComponent } from './pages/index/index.component';
 import { OpenCashRegisterComponent } from './pages/open-cash-register/open-cash-register.component';
 import { CloseCashRegisterComponent } from './pages/close-cash-register/close-cash-register.component';
+import { BadgeCashMovementType } from './components/badge-cash-movement-type/badge-cash-movement-type';
 
 @NgModule({
   declarations: [
     OpenCashRegisterComponent,
     CloseCashRegisterComponent,
     IndexComponent,
-    ShowComponent
+    ShowComponent,
+    BadgeCashMovementType
   ],
   imports: [
     CommonModule,
