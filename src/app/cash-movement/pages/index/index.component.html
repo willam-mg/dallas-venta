@@ -46,8 +46,11 @@
           </div>
           <div class="row">
             <div class="col-8">
-              <h4>
+              <h4 *ngIf="cashRegister">
                 {{cashRegister?.cash_balance?? 0}} Bs.
+              </h4>
+              <h4 *ngIf="!cashRegister">
+                {{cashRegisterClosed?.cash_balance?? 0}} Bs.
               </h4>
             </div>
             <div class="col-4 text-end">
@@ -58,15 +61,21 @@
             <div class="col-6">
                 <i class="bi bi-qr-code text-primary"></i> &nbsp;
                 <span class="text-secondary">Saldo QR</span>
-                <b>
+                <b *ngIf="cashRegister">
                   {{cashRegister?.qr_balance?? 0}} Bs.
+                </b>
+                <b *ngIf="!cashRegister">
+                  {{cashRegisterClosed?.qr_balance?? 0}} Bs.
                 </b>
             </div>
             <div class="col-6 text-end">
               <i class="bi bi-bank text-primary"></i> &nbsp;
               <span class="text-secondary">Saldo Bancos</span>
-                <b>
+                <b *ngIf="cashRegister">
                   {{cashRegister?.transfer_balance?? 0}} Bs.
+                </b>
+                <b *ngIf="!cashRegister">
+                  {{cashRegisterClosed?.transfer_balance?? 0}} Bs.
                 </b>
             </div>
           </div>
