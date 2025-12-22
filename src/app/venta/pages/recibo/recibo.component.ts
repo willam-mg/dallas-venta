@@ -48,6 +48,7 @@ export class ReciboComponent implements OnInit {
   loadVenta() {
     this.subscription.add(
       this.httpsService.show(this.idVenta).subscribe(data => {
+        console.log('venta recibo', data);
         this.venta = data;
       })
     );

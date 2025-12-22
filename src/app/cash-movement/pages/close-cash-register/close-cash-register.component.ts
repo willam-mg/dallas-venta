@@ -30,7 +30,7 @@ export class CloseCashRegisterComponent implements OnInit {
     this.formCashRegister = new FormGroup({ 
       puntoVentaId: new FormControl(this.puntoVentaId, Validators.required),
       openingAmount: new FormControl(null, Validators.required),
-      comment: new FormControl("", Validators.required),
+      comment: new FormControl(""),
     });
   }
 
