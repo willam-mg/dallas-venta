@@ -11,6 +11,7 @@ import { ReporteRoutingModule } from './reporte-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClienteModule } from '../cliente/cliente.module';
 import { ProductosVendidosComponent } from './pages/productos-vendidos/productos-vendidos.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { ProductosVendidosComponent } from './pages/productos-vendidos/productos
     // NgbDatepickerModule,
     // NgbModule,
     ClienteModule,
+    PaginationModule.forRoot(),
   ]
 })
 export class ReporteModule { }

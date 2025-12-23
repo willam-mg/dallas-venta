@@ -59,6 +59,11 @@ export class IndexComponent implements OnInit {
     this.getCashRegister();
   }
 
+  pageChanged(event: any) {
+    this.pagination.page = event.page;
+    this.search();
+  }
+
   getCashRegister() {
     this.cashRegisterService.getCashRegisterOpened(this.puntoVentaId!).subscribe({
       next: (result) => {

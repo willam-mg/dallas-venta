@@ -135,6 +135,16 @@
                     [(first)]="pagination.page" 
                     (onPageChange)="onPageChange($event)">
                 </p-paginator> -->
+
+                <pagination
+                    [totalItems]="pagination!.totalCount"
+                    [(ngModel)]="pagination.page"
+                    [itemsPerPage]="pagination.pageSize"
+                    [maxSize]="3"         
+                    [boundaryLinks]="false"  
+                    [rotate]="true"         
+                    (pageChanged)="pageChanged($event)">
+                </pagination>
             </div>
         </div>
     </div>

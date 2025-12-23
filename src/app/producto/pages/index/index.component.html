@@ -65,9 +65,15 @@
         </select>
         <small class="p-3">{{pagination.totalCount}} resultados</small>
         <div class="table-responsive">
-            <!-- <ngb-pagination [collectionSize]="pagination.totalCount" [(page)]="pagination.page"
-                [pageSize]="pagination.pageSize" (pageChange)="search()">
-            </ngb-pagination> -->
+            <pagination
+                [totalItems]="pagination!.totalCount"
+                [(ngModel)]="pagination.page"
+                [itemsPerPage]="pagination.pageSize"
+                [maxSize]="3"         
+                [boundaryLinks]="false"  
+                [rotate]="true"         
+                (pageChanged)="pageChanged($event)">
+            </pagination>
         </div>
     </div>
 </div>

@@ -54,6 +54,11 @@ export class ProductosVendidosComponent implements OnInit {
     this.search();
   }
 
+  pageChanged(event: any) {
+    this.pagination.page = event.page;
+    this.search();
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

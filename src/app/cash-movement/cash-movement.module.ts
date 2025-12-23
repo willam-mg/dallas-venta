@@ -7,6 +7,7 @@ import { IndexComponent } from './pages/index/index.component';
 import { OpenCashRegisterComponent } from './pages/open-cash-register/open-cash-register.component';
 import { CloseCashRegisterComponent } from './pages/close-cash-register/close-cash-register.component';
 import { BadgeCashMovementType } from './components/badge-cash-movement-type/badge-cash-movement-type';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BadgeCashMovementType } from './components/badge-cash-movement-type/bad
     CashMovementRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    PaginationModule.forRoot(),
   ]
 })
 export class CashMovementModule { }

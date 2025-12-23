@@ -13,6 +13,8 @@ import { ShowComponent } from './pages/show/show.component';
 //   NgbTypeaheadModule
 // } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ProductoRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    DialogModule,
+    PaginationModule.forRoot(),
     // NgbTypeaheadModule,
     // NgbPaginationModule,
     // NgbDatepickerModule,

@@ -49,6 +49,11 @@ export class IndexComponent implements OnInit {
     this.subscription.unsubscribe();
   }
 
+  pageChanged(event: any) {
+    this.pagination.page = event.page;
+    this.search();
+  }
+
   search(): void {
     this.submitted = true;
     this.subscription.add(
