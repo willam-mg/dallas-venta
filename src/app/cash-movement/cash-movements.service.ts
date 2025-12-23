@@ -42,6 +42,46 @@ export class CashMovementService {
     });
   }
 
+  public registerIncome(
+    puntoVentaId: number, 
+    amount: number, 
+    paymentMethod: string, 
+    referenceType: string,
+    sellerId: number,
+    comment: string): Observable<ResponseData> {
+    const payload = {
+      punto_venta_id: puntoVentaId,
+      amount: amount,
+      payment_method: paymentMethod,
+      reference_type: referenceType,
+      user_id: null,
+      vendedor_id: sellerId,
+      comment: comment
+    };
+
+    return this.http.post<ResponseData>(`${path}/cash-movement/income`, payload, httpHeaders);
+  }
+  
+  public registerExpense(
+    puntoVentaId: number, 
+    amount: number, 
+    paymentMethod: string, 
+    referenceType: string,
+    sellerId: number,
+    comment: string): Observable<ResponseData> {
+    const payload = {
+      punto_venta_id: puntoVentaId,
+      amount: amount,
+      payment_method: paymentMethod,
+      reference_type: referenceType,
+      user_id: null,
+      vendedor_id: sellerId,
+      commnet: comment
+    };
+
+    return this.http.post<ResponseData>(`${path}/cash-movement/revenue`, payload, httpHeaders);
+  }
+
   // /**
   //  * get a cliente
   //  * @param id number

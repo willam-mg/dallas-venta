@@ -8,11 +8,15 @@ import { OpenCashRegisterComponent } from './pages/open-cash-register/open-cash-
 import { CloseCashRegisterComponent } from './pages/close-cash-register/close-cash-register.component';
 import { BadgeCashMovementType } from './components/badge-cash-movement-type/badge-cash-movement-type';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ManualExpenseComponent } from './pages/manual-expense/manual-expense.component';
+import { ManualIncomeComponent } from './pages/manual-income/manual-income.component';
 
 @NgModule({
   declarations: [
     OpenCashRegisterComponent,
     CloseCashRegisterComponent,
+    ManualIncomeComponent,
+    ManualExpenseComponent,
     IndexComponent,
     ShowComponent,
     BadgeCashMovementType

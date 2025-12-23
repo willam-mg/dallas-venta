@@ -15,6 +15,8 @@ import { CashRegister } from '../../../models/cash-register';
 import { CloseCashRegisterComponent } from '../close-cash-register/close-cash-register.component';
 import { CashMovement } from '../../../models/cash-movement';
 import { CashMovementType } from '../../../shared/constants/cash-movement.constants';
+import { ManualExpenseComponent } from '../manual-expense/manual-expense.component';
+import { ManualIncomeComponent } from '../manual-income/manual-income.component';
 
 
 @Component({
@@ -177,6 +179,44 @@ export class IndexComponent implements OnInit {
     if (diffDays === 1) return `ayer a las ${time}`;
 
     return `${date.toLocaleDateString('es-BO')} a las ${time}`;
+  }
+
+  createIn() {
+    this.modalRefProducto = this.modalProducto.show(ManualIncomeComponent, {
+      class: 'modal-sm',
+    });
+    
+    this.modalRefProducto.content.isCreated.subscribe((data: Almacen) => {
+      Swal.fire(
+        '',
+        'Entrada registrada',
+        'success'
+      );
+
+      this.getCashRegister();
+      this.search();
+
+      this.modalRefProducto.hide();
+    });
+  }
+
+  createOut() {
+    this.modalRefProducto = this.modalProducto.show(ManualExpenseComponent, {
+      class: 'modal-sm',
+    });
+    
+    this.modalRefProducto.content.isCreated.subscribe((data: Almacen) => {
+      Swal.fire(
+        '',
+        'Salida registrada',
+        'success'
+      );
+
+      this.getCashRegister();
+      this.search();
+
+      this.modalRefProducto.hide();
+    });
   }
 
 }

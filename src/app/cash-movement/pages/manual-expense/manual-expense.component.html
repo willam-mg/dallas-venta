@@ -1,0 +1,90 @@
+<div class="modal-header">
+  <h4 class="modal-title">Salida de caja</h4>
+  <button type="button" class="btn-close" (click)="modal.hide()"></button>
+</div>
+
+<form [formGroup]="formCashRegister" (ngSubmit)="registerIncome()">
+  <div class="modal-body">
+
+    <!-- Monto -->
+    <div class="mb-3">
+      <label class="form-label">Monto</label>
+      <input type="number" class="form-control" formControlName="amount" placeholder="0.00" step="0.01" />
+
+      <small class="text-danger" *ngIf="formCashRegister.controls['amount'].touched &&
+               formCashRegister.controls['amount'].invalid">
+        Ingrese un monto válido
+      </small>
+    </div>
+
+    <!-- Método de pago -->
+    <div class="mb-3">
+      <label class="form-label">Método de pago</label>
+      <select class="form-select" formControlName="paymentMethod">
+        <option [value]="paymentMethodCash">Efectivo</option>
+        <option [value]="paymentMethodQr">QR</option>
+        <option [value]="paymentMethodTransfer">Transferencia</option>
+      </select>
+
+      <small class="text-danger" *ngIf="formCashRegister.controls['paymentMethod'].touched &&
+               formCashRegister.controls['paymentMethod'].invalid">
+        Seleccione un método de pago
+      </small>
+    </div>
+
+    <!-- Concepto -->
+    <!-- <div class="mb-3">
+      <label class="form-label">Concepto</label>
+      <select class="form-select" formControlName="concept">
+        <option value="manual_expense">Egreso manual</option>
+        <option value="supplier_payments">Pago proveedores</option>
+        <option value="text_payments">Pago textos</option>
+        <option value="collect_funds">Recojo de fondos</option>
+      </select>
+
+      <small class="text-danger" *ngIf="formCashRegister.controls['concept'].touched &&
+               formCashRegister.controls['concept'].invalid">
+        Seleccione un concepto
+      </small>
+    </div> -->
+
+    <!-- Tipo de referencia -->
+    <div class="mb-3">
+      <label class="form-label">Concepto</label>
+      <select class="form-select" formControlName="referenceType">
+        <option [value]="referenceTypeManualExpense">Salida manual</option>
+        <option [value]="referenceTypeSupplierPayments">Pago proveedores</option>
+        <option [value]="referenceTypeTextPayments">Pago textos</option>
+        <option [value]="referenceCollectType">Recojo de fondos</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Comentario</label>
+      <textarea class="form-control" rows="3" formControlName="comment" placeholder="Observaciones de apertura">
+      </textarea>
+
+      <small class="text-danger" *ngIf="formCashRegister.controls['comment'].touched &&
+               formCashRegister.controls['comment'].invalid">
+        Campo obligatorio
+      </small>
+    </div>
+
+    <!-- Campos ocultos -->
+    <input type="hidden" formControlName="puntoVentaId">
+    <input type="hidden" formControlName="sellerId">
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.hide()">
+      <i class="bi bi-x"></i>
+      Cerrar
+    </button>
+
+    <button type="submit" class="btn btn-primary" [disabled]="formCashRegister.invalid">
+      <i class="bi bi-check-circle"></i>
+      Registrar entrada
+    </button>
+  </div>
+</form>
