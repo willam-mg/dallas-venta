@@ -1,0 +1,84 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    Confirmar Recojo de Caja
+  </h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="bsModalRef.hide()"
+  ></button>
+</div>
+
+<form [formGroup]="formCashCollectionConfirm" (ngSubmit)="confirm()">
+  <div class="modal-body">
+    <div class="mb-3">
+      <div class="form-group">
+        <label for="saldo">Monto solicitado</label>
+        <input
+          type="text"
+          class="form-control"
+          disabled
+          [value]="cashCollectionCatched.expected_amount | number:'1.2-2'"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Monto entregado</label>
+      <input
+        type="number"
+        class="form-control"
+        formControlName="amount"
+        placeholder="Ingrese el monto"
+      />
+      <div
+        class="text-danger small"
+        *ngIf="formCashCollectionConfirm.get('amount')?.invalid && formCashCollectionConfirm.get('amount')?.touched"
+      >
+        El monto es obligatorio
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <div class="form-group">
+        <label for="saldo">Saldo</label>
+        <input
+          type="text"
+          class="form-control"
+          disabled
+          [value]="balance | number:'1.2-2'"
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Nota</label>
+      <textarea
+        class="form-control"
+        rows="3"
+        formControlName="notes"
+        placeholder="Nota (opcional)"
+      ></textarea>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="bsModalRef.hide()"
+    >
+      Cancelar
+    </button>
+
+    <button
+      type="submit"
+      class="btn btn-success"
+      [disabled]="formCashCollectionConfirm.invalid"
+    >
+      Confirmar
+    </button>
+  </div>
+</form>

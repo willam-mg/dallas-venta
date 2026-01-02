@@ -19,7 +19,8 @@ export const environment = {
       Accept: 'application/json',
       'Cache-Control': 'no-cache',
     },
-    path: 'http://importer.local:8080/api'
+    path: 'http://importer.local:8080/api',
+    socketServer: 'http://socket.academiamodernadallas.com'
   }
 };
 

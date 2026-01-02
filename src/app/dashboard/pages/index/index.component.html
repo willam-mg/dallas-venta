@@ -1,1 +1,52 @@
-<p>index works!</p>
+<h4>Recojo de fondos</h4>
+<table class="table table-hover table-striped align-middle">
+  <thead class="table-light">
+    <tr>
+      <th># Ref.</th>
+      <th class="text-end">Monto</th>
+      <th>Solicitado por</th>
+      <th>Estado</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr 
+      *ngFor="let item of cashCollections"
+      class="cursor-pointer"
+      [ngClass]="item.isPending()? 'table-danger': ''"
+      (click)="confirmCollection(item)"
+      >
+      <td>{{ item.reference_number }}</td>
+
+      <td class="text-end">
+        <b>
+          {{ item.expected_amount | number:'1.2-2' }}
+        </b>
+      </td>
+
+      <td>
+        {{ item.created_by_name }}
+      </td>
+
+      <td>
+        <span
+            class="badge bg-warning text-dark"
+            [ngClass]="{
+                'bg-warning text-dark': item.isPending(),
+                'bg-success': item.isConfirmed(),
+                'bg-danger': item.isCanceled()
+            }"
+            >
+            {{ item.statusLabel }}
+        </span>
+
+      </td>
+    </tr>
+
+    <tr *ngIf="cashCollections.length === 0">
+      <td colspan="4" class="text-center text-muted py-3">
+        No hay registros
+      </td>
+    </tr>
+  </tbody>
+</table>

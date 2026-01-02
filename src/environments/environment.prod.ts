@@ -15,6 +15,7 @@ export const environment = {
       Accept: 'application/json',
       'Cache-Control': 'no-cache',
     },
-    path: 'https://almacenes.academiamodernadallas.com/api'
+    path: 'https://almacenes.academiamodernadallas.com/api',
+    socketServer: 'http://socket.academiamodernadallas.com'
   }
 };

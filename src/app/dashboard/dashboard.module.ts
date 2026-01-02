@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { IndexComponent } from './pages/index/index.component';
-
+import { CashCollectionModule } from '../cash-collection/cash-collection.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +11,8 @@ import { IndexComponent } from './pages/index/index.component';
   ],
   imports: [
     CommonModule,
-    DashboardRoutingModule
+    DashboardRoutingModule,
+    CashCollectionModule
   ]
 })
 export class DashboardModule { }
